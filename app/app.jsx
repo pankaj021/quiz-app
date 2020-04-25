@@ -1,12 +1,10 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { Route, Router, IndexRoute, hashHistory } from 'react-router';
-import Main from 'Main';
+import {render} from 'react-dom';
+import {Route, Router, IndexRoute, hashHistory} from 'react-router';
 
 // App css
 import 'style!css!applicationStyles';
+import Levels from './components/Levels';
 
 render(
-    <Main />, 
-    document.getElementById("react-container")
-);
+    <Levels/>, document.getElementById("react-container"));

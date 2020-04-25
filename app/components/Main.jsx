@@ -1,69 +1,72 @@
 import React from 'react';
-import data from '../data/data';
-import Answers from 'Answers';
-import Popup from 'Popup';
-import Footer from 'Footer';
+import Answers from './Answers';
+import Popup from './Popup';
+import Footer from './Footer';
 
 class Main extends React.Component {
     constructor(props) {
         super(props);
+        const {levelIndex, noOfLevels, data} = props;
         this.state = {
             nr: 0,
             total: data.length,
             showButton: false,
             questionAnswered: false,
             score: 0,
-            displayPopup: 'flex'
+            displayPopup: 'flex',
+            levelIndex,
+            noOfLevels,
+            data
         }
-        this.nextQuestion = this.nextQuestion.bind(this);
-        this.handleShowButton = this.handleShowButton.bind(this);
-        this.handleStartQuiz = this.handleStartQuiz.bind(this);
-        this.handleIncreaseScore = this.handleIncreaseScore.bind(this);
+        this.nextQuestion = this
+            .nextQuestion
+            .bind(this);
+        this.handleShowButton = this
+            .handleShowButton
+            .bind(this);
+        this.handleStartQuiz = this
+            .handleStartQuiz
+            .bind(this);
+        this.handleIncreaseScore = this
+            .handleIncreaseScore
+            .bind(this);
     }
 
     pushData(nr) {
+        const data = this.state.data
         this.setState({
             question: data[nr].question,
-            answers: [data[nr].answers[0], data[nr].answers[1], data[nr].answers[2], data[nr].answers[3] ],
+            answers: [
+                data[nr].answers[0], data[nr].answers[1], data[nr].answers[2], data[nr].answers[3]
+            ],
             correct: data[nr].correct,
             nr: this.state.nr + 1
         });
     }
 
     componentWillMount() {
-        let { nr } = this.state;
+        let {nr} = this.state;
         this.pushData(nr);
     }
 
     nextQuestion() {
-        let { nr, total, score } = this.state;
+        let {nr, total, score} = this.state;
 
-        if(nr === total){
-            this.setState({
-                displayPopup: 'flex'
-            });
+        if (nr === total) {
+            this.setState({displayPopup: 'flex'});
         } else {
             this.pushData(nr);
-            this.setState({
-                showButton: false,
-                questionAnswered: false
-            });
+            this.setState({showButton: false, questionAnswered: false});
         }
 
     }
 
     handleShowButton() {
-        this.setState({
-            showButton: true,
-            questionAnswered: true
-        })
+        this.setState({showButton: true, questionAnswered: true})
     }
 
     handleStartQuiz() {
-        this.setState({
-            displayPopup: 'none',
-            nr: 1
-        });
+        this.setState({displayPopup: 'none', nr: 1});
     }
 
     handleIncreaseScore() {
@@ -73,12 +76,31 @@ class Main extends React.Component {
     }
 
     render() {
-        let { nr, total, question, answers, correct, showButton, questionAnswered, displayPopup, score} = this.state;
+        let {
+            nr,
+            total,
+            question,
+            answers,
+            correct,
+            showButton,
+            questionAnswered,
+            displayPopup,
+            score,
+            levelIndex,
+            noOfLevels
+        } = this.state;
 
         return (
             <div className="container">
-
-                <Popup style={{display: displayPopup}} score={score} total={total} startQuiz={this.handleStartQuiz}/>
+                <Popup
+                    style={{
+                    display: displayPopup
+                }}
+                    score={score}
+                    total={total}
+                    startQuiz={this.handleStartQuiz}
+                    levelIndex={levelIndex}
+                    noOfLevels={noOfLevels}/>
 
                 <div className="row">
                     <div className="col-lg-10 col-lg-offset-1">
@@ -86,13 +108,22 @@ class Main extends React.Component {
                             <h4>Question {nr}/{total}</h4>
                             <p>{question}</p>
                         </div>
-                        <Answers answers={answers} correct={correct} showButton={this.handleShowButton} isAnswered={questionAnswered} increaseScore={this.handleIncreaseScore}/>
+                        <Answers
+                            answers={answers}
+                            correct={correct}
+                            showButton={this.handleShowButton}
+                            isAnswered={questionAnswered}
+                            increaseScore={this.handleIncreaseScore}/>
                         <div id="submit">
-                            {showButton ? <button className="fancy-btn" onClick={this.nextQuestion} >{nr===total ? 'Finish quiz' : 'Next question'}</button> : null}
+                            {showButton
+                                ? <button className="fancy-btn" onClick={this.nextQuestion}>{nr === total
+                                            ? 'Finish quiz'
+                                            : 'Next question'}</button>
+                                : null}
                         </div>
                     </div>
                 </div>
-                <Footer />
+                <Footer/>
             </div>
         );
     }

@@ -1,18 +1,17 @@
 var webpack = require('webpack');
 
 module.exports = {
-    entry: [
-        './app/app.jsx'
-    ],
+    entry: ['./app/app.jsx'],
     output: {
         path: __dirname,
         filename: './public/bundle.js'
     },
+    watch: true,
+    devtool: 'source-map',
     resolve: {
         root: __dirname,
         modulesDirectories: [
-            'node_modules',
-            './app/components',
+            'node_modules', './app/components'
         ],
         alias: {
             applicationStyles: 'app/styles/app.css'
